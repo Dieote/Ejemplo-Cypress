@@ -49,9 +49,11 @@ describe("Pruebas Automaticas Cypress", () => {
       cy.get('.oxd-button').click()
       cy.get(':nth-child(1) > .oxd-main-menu-item').click()
       cy.get('.oxd-layout-context').scrollTo("bottom", { ensureScrollable: false })
-      cy.get(':nth-child(3) > .oxd-table-row > :nth-child(6) > .oxd-table-cell-actions > :nth-child(1) > .oxd-icon').click()
+      cy.get(':nth-child(3) > .oxd-table-row > :nth-child(6) > .oxd-table-cell-actions > :nth-child(1) > .oxd-icon')
+      .click()
       cy.get('.orangehrm-text-center-align > .oxd-text').should("be.visible")
-      cy.get('.orangehrm-text-center-align > .oxd-text').contains('The selected record will be permanently deleted. Are you sure you want to continue?')
+      cy.get('.orangehrm-text-center-align > .oxd-text')
+      .contains('The selected record will be permanently deleted. Are you sure you want to continue?')
       cy.get('.oxd-button--label-danger').click()
   
     })*/
@@ -71,10 +73,14 @@ describe("Pruebas Automaticas Cypress", () => {
     ).type("admin123");
     cy.get(".oxd-button").click();
 
-    cy.get(":nth-child(5) > .oxd-main-menu-item").click();
-    cy.get(':nth-child(3) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text-input').select("Online"); //Da igual el valor que coloque, no selecciona
-    cy.get(
-      ":nth-child(3) > .oxd-grid-4 > .oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text > .oxd-select-text-input"
-    ).should("Online");
+        //check text in select plus time
+    cy.get(":nth-child(5) > .oxd-main-menu-item",{ timeout: 10000 }).click();
+    cy.get(':nth-child(3) > .oxd-grid-4')
+      .find('.oxd-grid-item > .oxd-input-group > :nth-child(2) > .oxd-select-wrapper > .oxd-select-text')
+      .should('have.text','-- Select --')
+
+      //choose option "manual"
+    cy.get('.oxd-select-text').should('have.text',"Manual")
+
   });
 });
